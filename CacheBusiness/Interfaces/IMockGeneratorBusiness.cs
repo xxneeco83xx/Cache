@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using DTO;
+using System.Linq;
 
 namespace CacheBusiness.Interfaces
 {
@@ -7,7 +7,7 @@ namespace CacheBusiness.Interfaces
     {
         #region Methods
 
-        IEnumerable<JObject> GetMockData(int objectsCount = 100);
+        IQueryable<EventDTO> GetMockData(int objectsCount = 100);
 
         #endregion
     }

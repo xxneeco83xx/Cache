@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" style="margin-top: 2%;">
         @RenderBody()
         <hr />
         <footer>
@@ -35,6 +35,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/tables")
+    @Scripts.Render("~/bundles/core")
     @RenderSection("scripts", required: false)
 </body>
 </html>

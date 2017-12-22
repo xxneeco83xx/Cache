@@ -1,5 +1,5 @@
 ﻿using CacheBusiness.Interfaces;
-using Newtonsoft.Json.Linq;
+using DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace CacheBusiness.Business
     {
         #region Properties
 
-        private JObject _data { get; set; }
+        private EventDTO _data { get; set; }
 
         #endregion
 
@@ -18,22 +18,23 @@ namespace CacheBusiness.Business
 
         public MockGeneratorBusiness()
         {
-            dynamic dataObj = new JObject();
+            var eventDTO = new EventDTO
+            {
+                EventName = "Internet event",
+                StartDate = DateTime.Now.ToString("yyyy/MM/dd"),
+                EndDate = DateTime.Now.AddHours(2).ToString("yyyy/MM/dd hh:MM:ss")
+            };
 
-            dataObj.eventName = "Internet event";
-            dataObj.startTime = DateTime.Now.ToString("yyyy/MM/dd");
-            dataObj.endTime = DateTime.Now.AddHours(2).ToString("yyyy/MM/dd hh:MM:ss");
-
-            _data = dataObj;
+            _data = eventDTO;
         }
 
         #endregion
 
         #region Methods
 
-        public IEnumerable<JObject> GetMockData(int objectsCount = 100)
+        public IQueryable<EventDTO> GetMockData(int objectsCount = 10000)
         {
-            return (Enumerable.Repeat(_data, objectsCount));
+            return (Enumerable.Repeat(_data, objectsCount).AsQueryable());
         }
 
         #endregion

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache", "Cache\Cache.csproj", "{C88CEFDB-9B87-4EFB-9B5B-62B7F2631055}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheBusiness", "CacheBusiness\CacheBusiness.csproj", "{BC556190-BB42-4EE3-BB19-2531414CD600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{44BAF262-BB32-4FC1-A1F4-E84F2CF5EC36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BC556190-BB42-4EE3-BB19-2531414CD600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC556190-BB42-4EE3-BB19-2531414CD600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC556190-BB42-4EE3-BB19-2531414CD600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44BAF262-BB32-4FC1-A1F4-E84F2CF5EC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44BAF262-BB32-4FC1-A1F4-E84F2CF5EC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44BAF262-BB32-4FC1-A1F4-E84F2CF5EC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44BAF262-BB32-4FC1-A1F4-E84F2CF5EC36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
