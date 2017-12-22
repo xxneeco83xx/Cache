@@ -35,10 +35,10 @@ namespace Cache.Controllers
         }
 
         [HttpGet]
-        [OutputCache(Duration = 10, VaryByParam = "none", Location = OutputCacheLocation.Client)]
+        [OutputCache(Duration = 10, VaryByParam = "iDisplayStart; iDisplayLength; sSearch", Location = OutputCacheLocation.Client)]
         public ActionResult Get([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
         {
-            var query = _mockGeneratorBusiness.GetMockData();
+            var query = _mockGeneratorBusiness.GetMockData(10000);
 
             var totalCount = query.Count();
 
