@@ -1,6 +1,7 @@
 ﻿using CacheBusiness.Interfaces;
 using DataTables.Mvc;
 using DTO;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Cache.Controllers
         #region Properties
 
         private readonly IMockGeneratorBusiness _mockGeneratorBusiness;
-    
+
         #endregion
 
         #region Constructor
@@ -35,8 +36,7 @@ namespace Cache.Controllers
         }
 
         [HttpGet]
-        [OutputCache(Duration = 10, VaryByParam = "iDisplayStart; iDisplayLength; sSearch", Location = OutputCacheLocation.Client)]
-        public ActionResult Get([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
+        public ActionResult Get(int sEcho, int iDisplayStart, int iDisplayLength, string sSearch, string sSortDir_0)
         {
             var query = _mockGeneratorBusiness.GetMockData(10000);
 
@@ -45,9 +45,9 @@ namespace Cache.Controllers
             #region Filtering 
 
             // Apply filters for searching 
-            if (requestModel.Search.Value != string.Empty)
+            if (!string.IsNullOrEmpty(sSearch))
             {
-                var value = requestModel.Search.Value.Trim();
+                var value = sSearch.Trim();
                 query = query.Where(p => p.EventName.Contains(value) ||
                                          p.StartDate.Contains(value) ||
                                          p.EndDate.Contains(value));
@@ -60,21 +60,17 @@ namespace Cache.Controllers
             #region Sorting 
 
             // Sorting 
-            var sortedColumns = requestModel.Columns.GetSortedColumns();
-            var orderByString = string.Empty;
-
-            foreach (var column in sortedColumns)
-            {
-                orderByString += orderByString != string.Empty ? "," : "";
-                orderByString += (column.Data) + (column.SortDirection == Column.OrderDirection.Ascendant ? " asc" : " desc");
-            }
-
-            query = query.OrderBy(m=>orderByString == string.Empty ? "BarCode asc" : orderByString);
+            var orderedResults = sSortDir_0 == "asc"
+                              ? query.OrderBy(o => o.EndDate)
+                              : query.OrderByDescending(o => o.EndDate);
+            var itemsToSkip = iDisplayStart == 0
+                              ? 0
+                              : iDisplayStart + 1;
 
             #endregion Sorting 
 
             // Paging 
-            query = query.Skip(requestModel.Start).Take(requestModel.Length);
+            query = query.Skip(iDisplayStart).Take(iDisplayLength);
 
             var data = query.Select(mevent => new
             {
@@ -83,7 +79,13 @@ namespace Cache.Controllers
                 EndDate = mevent.EndDate,
             }).ToList();
 
-            return Json(new DataTablesResponse(requestModel.Draw, data, filteredCount, totalCount), JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                sEcho = sEcho.ToString(),
+                iTotalRecords = totalCount.ToString(),
+                iTotalDisplayRecords = filteredCount.ToString(),
+                aaData = data
+            }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
